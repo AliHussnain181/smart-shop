@@ -13,10 +13,16 @@ import { useDispatch, useSelector } from "react-redux"
 import { useEffect } from "react"
 import { getMe } from "./redux/userSlice"
 import PrivateComponent from "./components/PrivateComponent"
+import ProductDetail from "./components/productDetail"
+import { Toaster } from "react-hot-toast"
+import UpdateProduct from "./components/admin/updateProduct"
+import Footer from "./components/Footer"
 
 function App() {
 
   const { isAuthenticated } = useSelector(state => state.user)
+
+
 
   const dispatch = useDispatch();
 
@@ -32,15 +38,18 @@ function App() {
           <Route path="/me" element={<Profile />} />
           <Route path="/admin" element={<Dashboard />} />
           <Route path="/addproduct" element={<AddProduct />} />
+          <Route path="/update/:id" element={<UpdateProduct />} />
         </Route>
+        <Route path="/detail/:id" element={<ProductDetail />} />
         <Route path="/" element={<Product />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<SignUp />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
-
       </Routes>
+      <Toaster />
+      <Footer/>
     </BrowserRouter>
   )
 }

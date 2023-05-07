@@ -1,14 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaPhoneAlt, FaEnvelope, FaLocationArrow } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 const About = () => {
+
+  const [animationComplete, setAnimationComplete] = useState(false);
+
+  const onAnimationComplete = () => {
+    setAnimationComplete(true);
+  };
+
   return (
-    <motion.div 
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
+    <motion.div
+      animate={
+        animationComplete
+          ? { rotate: 0, scale: 1, opacity: 1 }
+          : { rotate: 360, scale: [1, 1.2, 1.2, 0], opacity: [1, 1, 0] }
+      }
+      transition={{ duration: 1.0 }}
+      onAnimationComplete={onAnimationComplete}
+
       className="bg-gray-100 min-h-screen"
     >
       <nav className="bg-white py-4 px-8 shadow-md flex justify-between items-center">
@@ -32,7 +44,9 @@ const About = () => {
           <p className="mb-2">At Electronic Shop, our mission is to provide our customers with the best possible shopping experience. We believe that everyone deserves access to the latest and greatest technology, and we strive to make that a reality for our customers.</p>
           <p className="mb-2">We are committed to providing exceptional customer service, and our team of experts is always available to answer your questions and help you find the perfect electronic device for your needs and budget.</p>
           <p>Thank you for choosing Electronic Shop for all of your electronic needs. We look forward to serving you!</p>
-          <Link to="/" className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition-colors duration-300 mt-8 block md:inline-block">Shop Now</Link>
+          <div className='mt-5'>
+            <Link to="/" className=" font-Roboto bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 hover:opacity-75 text-white py-2 px-4 rounded transition-all duration-500">Shop Now</Link>
+          </div>
         </div>
       </div>
     </motion.div>

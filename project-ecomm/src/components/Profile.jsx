@@ -4,11 +4,11 @@ import { MdDashboardCustomize } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getLogout } from '../redux/userSlice';
-import Search from './Search';
 
 const Profile = () => {
     
     const {user} = useSelector((state) => state.user)
+
 
     const dispatch = useDispatch();
 
@@ -26,17 +26,17 @@ const Profile = () => {
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.2 }}
             >
-                {user&&user.user.role ==="admin" && (
-                    <div className="text-4xl mb-4 cursor-pointer text-[#c744c7]">
+                {user&&user.role ==="admin" && (
+                    <div className=" text-mycolor hover:text-white hover:bg-mycolor hover:animate-pulse rounded-full p-3">
                         <Link to={'/admin'}>
-                            <MdDashboardCustomize />
+                            <MdDashboardCustomize  size={32} />
                         </Link>
                     </div>
                 )}
-                <h2 className="text-2xl font-medium mb-4">{user.user.name}</h2>
-                <p className="text-gray-600 mb-4">{user.user.email}</p>
+                <h2 className="text-2xl font-medium mb-4">{user.name}</h2>
+                <p className="text-gray-600 mb-4">{user.email}</p>
                 <button
-                    className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-bold py-2 px-4 rounded-full"
                     onClick={handleLogout}
                 >
                     Logout

@@ -4,11 +4,33 @@ import { Product } from "../models/Product.js";
 
 export const getProduct = async (req, res, next) => {
     try {
-        let product = await Product.find({});
-        res.status(200).json(product)
+        const keyword = req.query.keyword || "";
+        const category = req.query.category || "";
+
+        const product = await Product.find({
+            name: {
+                $regex: keyword,
+                $options: "i",
+            },
+            category: {
+                $regex: category,
+                $options: "i",
+            },
+        })
+        res.status(200).json(product);
     }
-    catch (error) {
-        next(error)
+    catch (err) {
+        next(err)
+    }
+}
+
+export const getDetails = async (req, res) => {
+    let result = await Product.findOne({ _id: req.params.id });
+    if (result) {
+        res.send(result)
+    }
+    else {
+        res.send({ "result": "No Record find" })
     }
 }
 
@@ -18,11 +40,11 @@ export const addProduct = async (req, res, next) => {
     if (!name || !description || !price || !company || !image || !quantity || !category)
         return next(new ErrorHandler("Please enter all field", 400));
 
-    await Product.create({
+    const product = await Product.create({
         name, description, price, company, image, quantity, category
     });
 
-    res.status(200).json("addProduct Successfully", 201);
+    res.status(200).json(product, "addProduct Successfully", 201);
 }
 
 
@@ -53,11 +75,14 @@ export const updateProduct = async (req, res, next) => {
 
 }
 
+
+
+
 export const deleteProduct = async (req, res, next) => {
     try {
-        const product = await Product.findById(req.params.id)
-        if (!product) return next(new ErrorHandler("product not found", 4000))
-        await product.remove();
+        const products = await Product.findById(req.params.id)
+        if (!products) return next(new ErrorHandler("product not found", 400))
+        await products.deleteOne()
 
         res.status(200).json({
             success: true,
@@ -69,13 +94,20 @@ export const deleteProduct = async (req, res, next) => {
     }
 }
 
-export const getProductDetails = async (req, res, next) => {
-    const product = await Product.findById(req.params.id);
 
-    if (!product) return next(new ErrorHandler("Product not found", 404));
+export const getStats = async (req, res, next) => {
+    const product = await Product.find()
+
+    const Mobile = product.filter((i) => i.category === "Mobile")
+    const Laptop = product.filter((i) => i.category === "Laptop")
+    const Electronic = product.filter((i) => i.category === "Electronic Devices")
+    const Other = product.filter((i) => i.category === "Others")
 
     res.status(200).json({
-        success: true,
-        product,
-    });
-};
+        Mobile: Mobile.length,
+        Laptop: Laptop.length,
+        Electronic: Electronic.length,
+        Other: Other.length,
+    })
+}
+

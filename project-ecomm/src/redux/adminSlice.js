@@ -1,62 +1,99 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-export const addProduct = createAsyncThunk(
-    "product/addProduct",
-    async (e) => {
-      const response = await axios.post(
-        "http://localhost:5000/api/b1/addproduct",
-        e,
-        {
-          withCredentials: true,
-          headers: {
-            'Content-type': 'application/json',
-          },
-        }
-      );
-      return response.data;
-    }
-  );
-
-
-
-export const adminSlice = createSlice({
-    name: 'product',
-    initialState: {
-        data: [],
-        loading: false,
-        faild: false,
-    },
-    reducers: {
-
-        clearFaild: (state) => {
-            state.faild = false;
+export const productAdd = createAsyncThunk(
+  "product/productAdd",
+  async (e) => {
+    const response = await axios.post(
+      "http://localhost:5000/api/v1/add",
+      e,
+      {
+        withCredentials: true,
+        headers: {
+          'Content-type': 'application/json',
         },
-        clearLoading: (state) => {
-            state.loading = false;
+      }
+    );
+    return response.data;
+  }
+);
+
+export const deleteProduct = createAsyncThunk(
+  "product/deleteProduct",
+  async (id) => {
+
+    const config = {
+      withCredentials: true,
+    };
+
+    const response = await axios.delete(
+      `http://localhost:5000/api/v1/product/${id}`, config);
+    return response.data;
+  }
+);
+
+export const productStats = createAsyncThunk(
+  "product/productStats",
+  async () => {
+
+    const response = await axios.get(
+      "http://localhost:5000/api/v1/pd",
+      {
+        withCredentials: true,
+        headers: {
+          'Content-type': 'application/json',
         },
-
-    },
-    extraReducers: (builder) => {
-        builder
-            .addCase(addProduct.pending, (state) => {
-                state.loading = true;
-            })
-            .addCase(addProduct.fulfilled, (state, action) => {
-                state.loading = false;
-                state.data = action.payload;
-                console.log(state.data);
-                state.faild = false;
-            })
-            .addCase(addProduct.rejected, (state, action) => {
-                state.loading = false;
-                state.faild = true
-            })
-
-    },
+      }
+    );
+    return response.data;
+  }
+);
+const adminSlice = createSlice({
+  name: 'product',
+  initialState: {
+    loading: false,
+    error: null,
+    stats: []
+  },
+  reducers: {
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(productAdd.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(productAdd.fulfilled, (state, action) => {
+        state.loading = false;
+        state.message = action.payload;
+      })
+      .addCase(productAdd.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(deleteProduct.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(deleteProduct.fulfilled, (state, action) => {
+        state.loading = false;
+        state.message = action.payload;
+      })
+      .addCase(deleteProduct.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(productStats.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(productStats.fulfilled, (state, action) => {
+        state.loading = false;
+        state.stats = action.payload;
+      })
+      .addCase(productStats.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      });
+  },
 });
 
-export const { clearFaild, clearLoading } = adminSlice.actions;
 
-
-export default adminSlice.reducer
+export default adminSlice.reducer;

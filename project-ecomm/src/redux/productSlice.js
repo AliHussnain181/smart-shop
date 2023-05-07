@@ -2,34 +2,21 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 export const productData = createAsyncThunk(
   'product/productData',
-  async () => {
-    const response = await fetch(`http://localhost:5000/api/v1/product`, {
-      withCredentials: true,
-    })
+  async ({ category , keyword }) => {
+    const response = await fetch(`http://localhost:5000/api/v1/product?keyword=${keyword}&category=${category}`);
     const res = await response.json();
     return res;
   }
 );
 
-
-
-export const blogSlice = createSlice({
+export const productSlice = createSlice({
   name: 'product',
   initialState: {
     data: [],
     loading: false,
-    faild: false,
+    error: null,
   },
-  reducers: {
-
-    clearFaild: (state) => {
-        state.faild = false;
-    },
-    clearLoading: (state) => {
-        state.loading = false;
-    },
-
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(productData.pending, (state) => {
@@ -38,17 +25,13 @@ export const blogSlice = createSlice({
       .addCase(productData.fulfilled, (state, action) => {
         state.loading = false;
         state.data = action.payload;
-        state.faild = false;
+        state.error = null;
       })
       .addCase(productData.rejected, (state, action) => {
         state.loading = false;
-        state.faild = true
-      })
-
+        state.error = action.error.message;
+      });
   },
 });
 
-export const { clearFaild, clearLoading } = blogSlice.actions;
-
-
-export default blogSlice.reducer
+export default productSlice.reducer;

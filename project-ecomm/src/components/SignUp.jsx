@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import { getUser } from '../redux/userSlice';
@@ -23,58 +22,56 @@ const SignUp = () => {
 
 
     return (
-        <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="w-full h-screen flex items-center justify-center "
+        <div
+           
+            className="w-full h-screen flex items-center justify-center text-white bg-[#51074a] "
         >
-            <form onSubmit={handleSubmit} className="bg-[#f18fc5] w-[75%] sm:w-[60%] md:w-[50%] xl:w-[30%]  text-center rounded-md shadow-lg">
-                <h2 className="text-2xl font-medium mb-6">SignUp</h2>
+            <form onSubmit={handleSubmit} className=" w-[75%] sm:w-[60%] md:w-[50%] xl:w-[30%]  text-center">
+                <h2 className="text-2xl font-medium font-Roboto mb-6">SignUp</h2>
                 <div className="mb-4">
-                    <label htmlFor="email" className="block text-gray-700 font-medium mb-2">Name</label>
+                    <label htmlFor="email" className="block text-lg font-Raleway mb-2">Name</label>
                     <input
                         type="text"
                         id="name"
                         name="name"
                         value={name}
                         onChange={e => setName(e.target.value)}
-                        className="border border-gray-300 rounded-md py-2  w-[96%]"
+                        className="outline-0 border-[white]  bg-[#51074a] py-2 border-b-2 w-[96%]"
                         required
                     />
                 </div>
                 <div className="mb-4">
-                    <label htmlFor="email" className="block text-gray-700 font-medium mb-2">Email</label>
+                    <label htmlFor="email" className="block text-lg font-Raleway mb-2">Email</label>
                     <input
                         type="email"
                         id="email"
                         name="email"
                         value={email}
                         onChange={e => setEmail(e.target.value)}
-                        className="border border-gray-300 rounded-md py-2  w-[96%]"
+                        className="outline-0 border-[white]  bg-[#51074a] py-2 border-b-2 w-[96%]"
                         required
                     />
                 </div>
                 <div className="mb-4">
-                    <label htmlFor="password" className="block text-gray-700 font-medium mb-2">Password</label>
+                    <label htmlFor="password" className="block text-lg font-Raleway mb-2">Password</label>
                     <input
                         type="password"
                         id="password"
                         name="password"
                         value={password}
                         onChange={e => setPassword(e.target.value)}
-                        className="border border-gray-300 rounded-md py-2  w-[96%]"
+                        className="outline-0 border-[white]  bg-[#51074a] py-2 border-b-2 w-[96%]"
                         required
                     />
                 </div>
                 <button
                     type="submit"
-                    className="bg-blue-500 text-white mb-8 py-2 px-4 rounded-md hover:bg-blue-600 transition-colors duration-300"
+                    className="bg-white text-black font-Roboto mb-8 py-2 px-7  hover:bg-[#011f4b] hover:text-amber-200 hover:rounded-3xl transition-all duration-500"
                 >
                     SignUp
                 </button>
             </form>
-        </motion.div>
+        </div>
     );
 };
 

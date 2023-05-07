@@ -54,7 +54,7 @@ export const getMe = createAsyncThunk(
         const response = await axios.get(
             "http://localhost:5000/api/v1/me",
             {
-                withCredentials: true,
+                withCredentials : true
             }
         );
         return response.data;
@@ -69,7 +69,9 @@ export const userSlice = createSlice({
         isAuthenticated: false,
         error: null,
     },
-    reducers: {},
+    reducers: {
+       
+    },
     extraReducers: (builder) => {
         builder
             .addCase(getUser.pending, (state) => {
@@ -131,10 +133,11 @@ export const userSlice = createSlice({
             .addCase(getMe.rejected, (state, action) => {
                 state.loading = false;
                 state.isAuthenticated = false;
-                state.error = action.payload;
+                state.error = action.error.message;
             });
 
     }
 })
+
 
 export default userSlice.reducer;

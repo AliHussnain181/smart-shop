@@ -25,10 +25,6 @@ app.use(
 
 
 
-
-
-
-
 import user from "./Routes/userRoutes.js"
 import product from "./Routes/productRoutes.js"
 import ErrorMiddleware from "./Middlewares/Error.js";
@@ -44,7 +40,9 @@ app.get("/", (req, res) =>
 );
 
 const connectDB = async () => {
-    await mongoose.connect(process.env.MONGO_URI)
+    await mongoose.connect(process.env.MONGO_URI, {
+        dbName: "shop-pj"
+    })
     console.log(`Database is connect`);
 };
 connectDB()

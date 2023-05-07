@@ -5,7 +5,16 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        Raleway: ["Raleway", "serif"],
+        Roboto: ["Roboto", "sans-serif"],
+      },
+       colors: {
+        mycolor: '#ff6347', // Choose any color code you like
+      },
+    },
   },
-  plugins: [],
+  plugins: [
+  ],
 }
